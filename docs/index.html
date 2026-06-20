@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>4XS Axis IP Cameras — Bitfocus Companion Module (VAPIX + CamStreamer)</title>
+<meta name="description" content="Free Bitfocus Companion module to control Axis IP cameras over the LAN: PTZ presets, guard tours, CamStreamer streams with blinking tally, CamOverlay widgets and CamSwitcher views — with live feedback and digest auth." />
+<meta name="keywords" content="Bitfocus Companion, Axis, VAPIX, CamStreamer, CamOverlay, CamSwitcher, PTZ, Stream Deck, tally, broadcast" />
+<meta name="author" content="4XS / Pavel Kotyza" />
+<link rel="canonical" href="https://kotyza.github.io/companion-module-axis-camera-control/" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="4XS Axis IP Cameras — Bitfocus Companion Module" />
+<meta property="og:description" content="Control Axis cameras + CamStreamer apps from Bitfocus Companion: PTZ, guard tours, streams with blinking tally, overlays and views. Free & open source." />
+<meta property="og:image" content="img/companion-axis-full-overview.png" />
+<link rel="icon" href="img/companion-app-icon.png" />
+<style>
+  :root[data-theme="light"]{--bg:#f4f5f7;--surface:#fff;--fg:#1b1d21;--muted:#5b6066;--bd:#e1e4e8;--accent:#c8362f;--accent-fg:#fff;--chip:#eef0f2;}
+  :root[data-theme="dark"]{--bg:#15171b;--surface:#1f2228;--fg:#e8eaed;--muted:#9aa0a6;--bd:#30343b;--accent:#e0554e;--accent-fg:#15171b;--chip:#2a2e35;}
+  *{box-sizing:border-box}
+  body{margin:0;font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--fg);}
+  a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+  .wrap{max-width:980px;margin:0 auto;padding:0 20px}
+  header{position:sticky;top:0;background:var(--bg);border-bottom:1px solid var(--bd);z-index:10}
+  header .wrap{display:flex;align-items:center;gap:12px;height:60px}
+  header img{width:30px;height:30px;border-radius:7px}
+  header .name{font-weight:600}
+  header .spacer{flex:1}
+  .toggle{background:transparent;border:1px solid var(--bd);color:var(--fg);border-radius:20px;padding:6px 13px;font-size:13px;cursor:pointer}
+  .hero{text-align:center;padding:64px 0 40px}
+  .hero h1{font-size:34px;line-height:1.2;margin:0 0 10px}
+  .hero p.sub{font-size:18px;color:var(--muted);max-width:680px;margin:0 auto 22px}
+  .chips{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:26px}
+  .chip{background:var(--chip);color:var(--muted);border-radius:20px;padding:4px 12px;font-size:13px}
+  .btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:13px 22px;border-radius:10px;font-weight:600;font-size:15px;border:1px solid var(--bd);background:var(--surface);color:var(--fg);cursor:pointer}
+  .btn.primary{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
+  .btn small{font-weight:400;opacity:.8}
+  section{padding:40px 0;border-top:1px solid var(--bd)}
+  h2{font-size:24px;margin:0 0 6px}
+  section > .wrap > p.lead{color:var(--muted);margin:0 0 26px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+  .card{background:var(--surface);border:1px solid var(--bd);border-radius:12px;padding:18px}
+  .card h3{margin:0 0 6px;font-size:16px}
+  .card p{margin:0;color:var(--muted);font-size:14px}
+  .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+  figure{margin:0;background:var(--surface);border:1px solid var(--bd);border-radius:12px;overflow:hidden}
+  figure img{width:100%;display:block;background:#000}
+  .showcase{max-width:520px;margin:30px auto 0}
+  .xfade{position:relative;line-height:0}
+  .xfade img{width:100%;display:block}
+  .xfade .top{position:absolute;inset:0;animation:tallyblink 4.6s linear infinite}
+  @keyframes tallyblink{0%,32%{opacity:0}50%,82%{opacity:1}100%{opacity:0}}
+  @media (prefers-reduced-motion:reduce){.xfade .top{animation:none;opacity:1}}
+  figcaption{padding:10px 14px;font-size:13px;color:var(--muted)}
+  ol.steps{padding-left:20px}ol.steps li{margin:10px 0}
+  pre{background:var(--chip);border:1px solid var(--bd);border-radius:10px;padding:14px 16px;overflow:auto;font-size:13px}
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  .note{background:var(--chip);border-left:3px solid var(--accent);border-radius:6px;padding:12px 16px;font-size:14px;color:var(--muted);margin-top:16px}
+  footer{padding:30px 0 60px;color:var(--muted);font-size:14px;text-align:center}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <img src="img/companion-app-icon.png" alt="Bitfocus Companion icon" />
+  <span class="name">4XS · Axis Camera Module</span>
+  <span class="spacer"></span>
+  <button class="toggle" id="tbtn" onclick="toggleTheme()">🌙 Dark</button>
+</div></header>
+
+<main>
+<div class="hero wrap">
+  <h1>Axis IP Cameras for Bitfocus Companion</h1>
+  <p class="sub">A free, open-source Companion module to control Axis cameras and CamStreamer apps directly over your LAN — PTZ presets, guard tours, streams with a blinking tally, overlays and view switching, all with live feedback.</p>
+  <div class="chips">
+    <span class="chip">v1.0.0</span>
+    <span class="chip">Bitfocus Companion 3.x / 4.x</span>
+    <span class="chip">VAPIX · CamStreamer · CamOverlay · CamSwitcher</span>
+    <span class="chip">MIT License</span>
+  </div>
+  <div class="btns">
+    <a class="btn primary" href="download/axis-camera-control-1.0.0.tgz" download>⬇ Download module <small>(.tgz · v1.0.0)</small></a>
+    <a class="btn" href="https://github.com/kotyza/companion-module-axis-camera-control">View on GitHub</a>
+  </div>
+  <figure class="showcase"><div class="xfade"><img src="img/axis-camstreamer-tally-liveOFF.png" alt="Companion button grid with the CamStreamer stream off"><img class="top" src="img/axis-camstreamer-tally-liveON.png" alt="Companion button grid with a blinking red LIVE tally while the stream is live" loading="lazy"></div><figcaption>Live broadcast tally — the LIVE button blinks red on air.</figcaption></figure>
+</div>
+
+<section><div class="wrap">
+  <h2>What it does</h2>
+  <p class="lead">Five action types, populated automatically from your camera, plus ready-made drag-and-drop presets.</p>
+  <div class="grid">
+    <div class="card"><h3>PTZ Presets</h3><p>Recall server presets and Home, per view-area channel.</p></div>
+    <div class="card"><h3>Guard Tours</h3><p>Start, stop or toggle AXIS guard tours, with a running-state feedback.</p></div>
+    <div class="card"><h3>CamStreamer Streams</h3><p>Start/stop/toggle streams. Live-state feedback turns the button bright when on air.</p></div>
+    <div class="card"><h3>Blinking Tally</h3><p>Broadcast-style red <code>● LIVE</code> button that flashes while a stream is live.</p></div>
+    <div class="card"><h3>CamOverlay Widgets</h3><p>Enable/disable any overlay service — read-modify-write keeps your other overlays intact.</p></div>
+    <div class="card"><h3>CamSwitcher Sources</h3><p>Switch the active playlist / view with a single press.</p></div>
+    <div class="card"><h3>Live Feedback</h3><p>Buttons reflect the camera's real polled state, even if changed elsewhere.</p></div>
+    <div class="card"><h3>Digest &amp; Basic Auth</h3><p>Works on default Axis cameras (digest), entered once on the connection.</p></div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <h2>Screenshots</h2>
+  <p class="lead">From connection setup to a fully laid-out control surface.</p>
+  <div class="gallery">
+    <figure><img src="img/axis-camera-connection-settings.png" alt="Axis camera connection settings in Bitfocus Companion: IP, port, user, password, HTTPS and state poll" loading="lazy"><figcaption>Connection settings — enter IP, user and password once.</figcaption></figure>
+    <figure><img src="img/companion-axis-preset-sections-expanded.png" alt="Companion preset palette for the Axis module: PTZ presets, guard tours, CamStreamer streams, CamOverlay widgets and CamSwitcher sources" loading="lazy"><figcaption>Auto-generated presets for every camera item.</figcaption></figure>
+    <figure><img src="img/axis-camstreamer-companion-button-grid.png" alt="Bitfocus Companion button grid with Axis PTZ, guard tour, stream, overlay and view buttons in unified colours" loading="lazy"><figcaption>A finished button page, colour-coded by function.</figcaption></figure>
+    <figure><img src="img/companion-axis-buttons-and-presets.png" alt="Companion buttons editor next to the Axis module preset palette" loading="lazy"><figcaption>Drag presets straight onto the grid.</figcaption></figure>
+    <figure><img src="img/companion-axis-full-overview.png" alt="Full Bitfocus Companion window showing the Axis module buttons and preset categories" loading="lazy"><figcaption>Everything in one place.</figcaption></figure>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <h2>Install</h2>
+  <p class="lead">No build needed — import the downloaded package straight into Companion.</p>
+  <ol class="steps">
+    <li><a href="download/axis-camera-control-1.0.0.tgz" download>Download <code>axis-camera-control-1.0.0.tgz</code></a>.</li>
+    <li>In Companion, open <strong>Modules</strong> → click <strong>Import module package</strong> and select the <code>.tgz</code> file.</li>
+    <li>Go to <strong>Connections → Add connection</strong>, search <strong>4XS</strong> or <strong>Axis</strong>, and add it.</li>
+    <li>Enter your <strong>Camera IP</strong>, <strong>User</strong> and <strong>Password</strong> — the status turns green and actions/presets populate.</li>
+    <li>Open the <strong>Presets</strong> tab and drag buttons onto your grid.</li>
+  </ol>
+  <figure style="margin-top:18px"><img src="img/companion-manage-modules-import.png" alt="Bitfocus Companion Manage Modules page with Import module package button and the 4XS Axis module installed" loading="lazy"><figcaption>Manage Modules → Import module package.</figcaption></figure>
+  <div class="note">Requires Bitfocus Companion 3.0+ (tested on 4.3.4) and a network route to the camera. Credentials are stored encrypted by Companion.</div>
+</div></section>
+
+<section><div class="wrap">
+  <h2>Build from source</h2>
+  <p class="lead">Node 22 / TypeScript. Runs as an isolated module process.</p>
+  <pre><code>git clone https://github.com/kotyza/companion-module-axis-camera-control.git
+cd companion-module-axis-camera-control
+npm install
+npm run build          # -&gt; dist/main.js
+npm run package        # -&gt; axis-camera-control-x.y.z.tgz</code></pre>
+  <p style="color:var(--muted);font-size:14px">For live development, set Companion's <strong>Developer modules path</strong> to the folder containing this module and run <code>npm run dev</code>.</p>
+</div></section>
+</main>
+
+<footer><div class="wrap">
+  Built by <a href="https://github.com/kotyza">4XS / Pavel Kotyza</a> · MIT License · Not affiliated with Axis Communications or Bitfocus.<br>
+  Part of the “Stream Deck on Axis” family — Elgato Stream Deck, Touch Portal, Macro Deck &amp; Companion.
+</div></footer>
+
+<script>
+function toggleTheme(){var r=document.documentElement,d=r.getAttribute('data-theme')==='dark';r.setAttribute('data-theme',d?'light':'dark');document.getElementById('tbtn').textContent=d?'🌙 Dark':'☀️ Light';}
+</script>
+</body>
+</html>
