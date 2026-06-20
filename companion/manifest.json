@@ -1,0 +1,28 @@
+{
+	"$schema": "../node_modules/@companion-module/base/assets/manifest.schema.json",
+	"type": "connection",
+	"id": "axis-camera-control",
+	"name": "axis-camera-control",
+	"shortname": "axis-camstreamer",
+	"description": "Control Axis IP cameras and CamStreamer / CamOverlay / CamSwitcher apps directly over the LAN (PTZ presets, guard tours, streams, overlays, view switching).",
+	"version": "1.0.0",
+	"license": "MIT",
+	"repository": "git+https://github.com/kotyza/companion-module-axis-camera-control.git",
+	"bugs": "https://github.com/kotyza/companion-module-axis-camera-control/issues",
+	"maintainers": [
+		{
+			"name": "Pavel Kotyza",
+			"email": "pavel@kotyza.com"
+		}
+	],
+	"runtime": {
+		"type": "node22",
+		"api": "nodejs-ipc",
+		"apiVersion": "0.0.0",
+		"entrypoint": "../dist/main.js"
+	},
+	"legacyIds": [],
+	"manufacturer": "4XS",
+	"products": ["Axis IP cameras (VAPIX + CamStreamer apps)"],
+	"keywords": ["axis", "vapix", "ptz", "camstreamer", "camoverlay", "camswitcher"]
+}
